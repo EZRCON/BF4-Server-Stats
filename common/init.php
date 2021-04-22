@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // initialize values as null
 $ServerID = null;
@@ -49,14 +49,15 @@ if((count($ServerIDs) == 1) || (!empty($sid) && in_array($sid,$ServerIDs) && emp
 		$Server_r = @mysqli_fetch_assoc($Server_q);
 		$ServerName = $Server_r['ServerName'];
 		// create battlelog link for this server
-		$battlelog = 'http://battlelog.battlefield.com/bf4/servers/pc/?filtered=1&amp;expand=0&amp;useAdvanced=1&amp;q=' . urlencode($ServerName);
+		$battlelog = 'https://battlelog.battlefield.com/bf4/servers/pc/?filtered=1&amp;expand=0&amp;useAdvanced=1&amp;q=' . urlencode($ServerName);
+		$ServerName = textcleaner($ServerName);
 	}
 	// error?  what?  This will probably never happen.
 	// damage control...
 	else
 	{
 		$ServerName = 'Error';
-		$battlelog = 'http://battlelog.battlefield.com/bf4/servers/pc/';
+		$battlelog = 'https://battlelog.battlefield.com/bf4/servers/pc/';
 	}
 	// lets see if a SoldierName or PlayerID was provided to us in the URL
 	// first look for a SoldierName in URL and try to convert it to PlayerID

@@ -1,13 +1,13 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // include required files
 require_once('../../config/config.php');
 require_once('../connect.php');
 require_once('../case.php');
 require_once('../constants.php');
-
+require_once('../functions.php');
 // get query string options
 $ServerID = $sid;
 // echo out HTML
@@ -30,9 +30,10 @@ if(@mysqli_num_rows($CurrentMap_q) != 0)
 	$CurrentMap_r = @mysqli_fetch_assoc($CurrentMap_q);
 	$map = $CurrentMap_r['mapName'];
 	$server = $CurrentMap_r['ServerName'];
-	$servername = substr($CurrentMap_r['ServerName'],0,28);
-	if(strlen($CurrentMap_r['ServerName']) > 28)
+	$servername = textcleaner($CurrentMap_r['ServerName']);
+	if(strlen($servername) > 24)
 	{
+		$servername = substr($servername,0,23);
 		$servername .= '..';
 	}
 	$slots = $CurrentMap_r['maxSlots'];
@@ -91,7 +92,7 @@ else
 	$map_img = '../images/maps/missing.png';
 }
 // display server information
-echo '<center><a href="http://battlelog.battlefield.com/bf4/servers/pc/?filtered=1&amp;expand=0&amp;useAdvanced=1&amp;q=' . urlencode($server) . '" target="_blank"><b>' . $servername . '</b></a></center></div>';
+echo '<center><a href="https://battlelog.battlefield.com/bf4/servers/pc/?filtered=1&amp;expand=0&amp;useAdvanced=1&amp;q=' . urlencode($server) . '" target="_blank"><b>' . $servername . '</b></a></center></div>';
 echo '
 <center>
 <table border="0" align="center" width="198px" style="padding: 1px;">
@@ -194,7 +195,7 @@ if(@mysqli_num_rows($Tickets_q) > 2)
 }
 // no teams found
 // some sort of error occured
-elseif(@mysqli_num_rows($Tickets_q) == 0)
+elseif(!$Tickets_q || @mysqli_num_rows($Tickets_q) == 0)
 {
 	echo '
 	<center>
@@ -218,6 +219,21 @@ elseif(@mysqli_num_rows($Tickets_q) == 0)
 	</table>
 	</center>';
 }
+// find current URL info
+// is this an HTTPS server?
+if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+{
+	$host = 'https://' . $_SERVER['HTTP_HOST'];
+}
+else
+{
+	$host = 'http://' . $_SERVER['HTTP_HOST'];
+}
+$dir = dirname($_SERVER['PHP_SELF']);
+// remove this directory name from the string
+$dir = str_replace("/server-banner", "", $dir);
+// adjust URL to reflect the location of index.php
+$home = str_replace("common", "", $dir);
 // display online players
 echo '
 <div class="section"><b>Online Players:</b></div>
@@ -246,7 +262,7 @@ if(@mysqli_num_rows($Score_q) != 0)
 		echo '
 		<tr>
 		<td width="75%" style="text-align: left;">
-		' . $count . ' <a href="../../index.php?p=player&amp;sid=' . $ServerID . '&amp;player=' . $soldier . '" target="_blank">' . $soldier . '</a>
+		' . $count . ' <a href="' . $host . $home . 'index.php?p=player&amp;sid=' . $ServerID . '&amp;player=' . $soldier . '" target="_blank">' . $soldier . '</a>
 		</td>
 		<td width="25%" style="text-align: right;">
 		' . $score . '
@@ -324,7 +340,7 @@ $Score_q = @mysqli_query($BF4stats,"
 	ORDER BY tps.`Score` DESC, tpd.`SoldierName` ASC LIMIT 10
 ");
 // if no recent results, do the slower query from live stats
-if(@mysqli_num_rows($Score_q) == 0)
+if(!$Score_q || @mysqli_num_rows($Score_q) == 0)
 {
 	$Score_q = @mysqli_query($BF4stats,"
 		SELECT tpd.`SoldierName`, tps.`Score`
@@ -350,7 +366,7 @@ if(@mysqli_num_rows($Score_q) != 0)
 		echo '
 		<tr>
 		<td width="75%" style="text-align: left;">
-		' . $count . ' <a href="../../index.php?p=player&amp;sid=' . $ServerID . '&amp;player=' . $soldier . '" target="_blank">' . $soldier . '</a>
+		' . $count . ' <a href="' . $host . $home . 'index.php?p=player&amp;sid=' . $ServerID . '&amp;player=' . $soldier . '" target="_blank">' . $soldier . '</a>
 		</td>
 		<td width="25%" style="text-align: right;">
 		' . $score . '

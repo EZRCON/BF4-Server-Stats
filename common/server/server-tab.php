@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // include required files
 require_once('../../config/config.php');
@@ -14,24 +14,32 @@ if(!empty($sid))
 	$ServerID = $sid;
 }
 // find current URL info
-$host = 'http://' . $_SERVER['HTTP_HOST'];
+// is this an HTTPS server?
+if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+{
+	$host = 'https://' . $_SERVER['HTTP_HOST'];
+}
+else
+{
+	$host = 'http://' . $_SERVER['HTTP_HOST'];
+}
 $dir = dirname($_SERVER['PHP_SELF']);
 // remove this directory name from the string
-$dir = rtrim($dir, "/server");
+$dir = str_replace("/server", "", $dir);
 // adjust URL to reflect the location of index.php
-$home = rtrim($dir, "common");
+$home = str_replace("common", "", $dir);
 echo '
 <table class="prettytable">
 <tr>
 <td class="tablecontents" width="240px">
 <br/>
-<center><a href="' . $host . $home . 'common/server-banner/image-banner.php?sid=' . $ServerID . '" target="_blank"><img src="./common/server-banner/image-banner.php?sid=' . $ServerID . '" style="width: 560px; height: 95px;" alt="banner"/></a></center>
+<center><a href="' . $host . $dir . '/server-banner/image-bannersid' . $ServerID . '.png" target="_blank"><img src="./common/server-banner/image-bannersid' . $ServerID . '.png" style="width: 560px; height: 95px;" alt="banner"/></a></center>
 <br/>
 <div class="headline" style="width: 550px; text-align: left;">BBcode</div>
 <table class="prettytable" style="width: 550px;">
 <tr>
 <td class="tablecontents" style="padding-left: 10px;">
-<span style="font-size: 12px;">[URL=' . $host . $home . 'index.php?sid=' . $ServerID . '][IMG]' . $host . $dir . '/server-banner/image-banner.php?sid=' . $ServerID . '[/IMG][/URL]</span>
+<span style="font-size: 12px;">[URL=' . $host . $home . 'index.php?sid=' . $ServerID . '][IMG]' . $host . $dir . '/server-banner/image-bannersid' . $ServerID . '.png[/IMG][/URL]</span>
 </td>
 </tr>
 </table>
@@ -40,12 +48,7 @@ echo '
 <table class="prettytable" style="width: 550px;">
 <tr>
 <td class="tablecontents" style="padding-left: 10px;">
-<span style="font-size: 12px;"><b>?cc=</b> : (optional) two letter country code designator of server location flag (default: null)</span>
-</td>
-</tr>
-<tr>
-<td class="tablecontents" style="padding-left: 10px;">
-<span style="font-size: 12px;"><b>&amp;h=</b> : (optional) height of image in pixels (default: 95)</span>
+<span style="font-size: 12px;"><b>?h=</b> : (optional) height of image in pixels (default: 95)</span>
 </td>
 </tr>
 <tr>

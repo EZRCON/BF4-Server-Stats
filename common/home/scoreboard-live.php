@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // include required files
 require_once('../../config/config.php');
@@ -76,7 +76,7 @@ if(@mysqli_num_rows($Basic_q) != 0)
 	$used_slots = $Basic_r['usedSlots'];
 	$available_slots = $Basic_r['maxSlots'];
 	$name = $Basic_r['ServerName'];
-	$battlelog = 'http://battlelog.battlefield.com/bf4/servers/pc/?filtered=1&amp;expand=0&amp;useAdvanced=1&amp;q=' . urlencode($name);
+	$battlelog = 'https://battlelog.battlefield.com/bf4/servers/pc/?filtered=1&amp;expand=0&amp;useAdvanced=1&amp;q=' . urlencode($name);
 	$mode = $Basic_r['Gamemode'];
 	// convert mode to friendly name
 	if(in_array($mode,$mode_array))
@@ -131,7 +131,7 @@ if(@mysqli_num_rows($Basic_q) != 0)
 // display blank information
 else
 {
-	$battlelog = 'http://battlelog.battlefield.com/bf4/servers/pc/';
+	$battlelog = 'https://battlelog.battlefield.com/bf4/servers/pc/';
 	echo '
 	<div style="margin-bottom: 4px; position: relative;">
 	<div style="position: absolute; z-index: 2; width: 100%; height: 100%; top: 0; left: 0; padding: 0px; margin: 0px;"><a class="fill-div" style="padding: 0px; margin: 0px;" href="' . $battlelog . '" target="_blank"></a></div>

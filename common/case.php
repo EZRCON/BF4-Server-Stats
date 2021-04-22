@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // page case
 // $page = ?p
@@ -163,17 +163,6 @@ if(!empty($_GET['order']) && !(is_numeric($_GET['order'])))
 else
 {
 	$scoreboard_order = null;
-}
-
-// country code (flag image in banner override) case
-// $cc = ?cc
-if(!empty($_GET['cc']) && strlen($_GET['cc']) == 2 && !(is_numeric($_GET['cc'])))
-{
-	$cc = strtoupper(mysqli_real_escape_string($BF4stats, strip_tags($_GET['cc'])));
-}
-else
-{
-	$cc = null;
 }
 
 // cache refresh

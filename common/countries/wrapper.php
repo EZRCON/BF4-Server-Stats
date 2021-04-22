@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // query for countries
 // if there is a ServerID, this is a server stats page
@@ -38,7 +38,7 @@ else
 	");
 }
 // no country stats found
-if(@mysqli_num_rows($CountryMap_q) == 0)
+if(!$CountryMap_q || @mysqli_num_rows($CountryMap_q) == 0)
 {
 	echo '
 	<div class="subsection">
@@ -71,7 +71,8 @@ else
 	$mapcount = 0;
 	echo '
 	<script type="text/javascript" src="http';
-	if(isset($_SERVER['HTTPS']))
+	// is this an HTTPS server?
+	if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
 	{
 		echo 's';
 	}

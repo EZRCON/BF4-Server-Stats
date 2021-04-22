@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // expand / contract javascript
 echo '
@@ -1188,7 +1188,7 @@ elseif($SoldierName != null)
 		{
 			echo '
 			<br/>
-			<div class="subsection" style="position: relative;"><div class="headline"><span class="information">Signature images use combined stats from all of ' . $clan_name . '\'s Servers.</span></div>
+			<div class="subsection" style="position: relative;"><div class="headline"><span class="information">Signature images use combined stats from all of ' . $clan_name . '\'s servers.</span></div>
 			';
 			// check if this player's rank is cached in the database
 			// we do this early so that we can insert dummy data now into the database (if necessary) to reduce duplicates later when the slower parallel process is executed
@@ -1318,7 +1318,15 @@ elseif($SoldierName != null)
 			';
 			// done with the dummy cache stuff...
 			// find current URL info
-			$host = 'http://' . $_SERVER['HTTP_HOST'];
+			// is this an HTTPS server?
+			if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+			{
+				$host = 'https://' . $_SERVER['HTTP_HOST'];
+			}
+			else
+			{
+				$host = 'http://' . $_SERVER['HTTP_HOST'];
+			}
 			$dir = dirname($_SERVER['PHP_SELF']);
 			$file = $_SERVER['PHP_SELF'];
 			// show signature images
@@ -1326,11 +1334,11 @@ elseif($SoldierName != null)
 			</div>
 			<table class="prettytable">
 			<tr>
-			<td class="tablecontents" style="text-align: left; padding: 20px;" valign="top" width="50%">
-			Stats image with player\'s rank:<br/><br/>
+			<td class="tablecontents" style="text-align: center; padding: 20px;" valign="top" width="50%">
 			';
 			// include signature.php image
 			echo '
+			<br/><br/>
 			<a href="' . $host . $dir . '/common/signature/signaturepid' . $PlayerID . 'fav0.png" target="_blank"><img src="./common/signature/signaturepid' . $PlayerID . 'fav0.png';
 			if(!empty($cr))
 			{
@@ -1338,8 +1346,12 @@ elseif($SoldierName != null)
 			}
 			echo '" style="height: 100px; width: 400px;" alt="signature" /></a>
 			<br/>
+			</td>
+			<td class="tablecontents" style="text-align: left; padding: 20px;" valign="top" width="50%">
 			<span class="information">BBcode:</span>
 			<br/><br/>
+			Image with rank:
+			<br/>
 			<table class="prettytable">
 			<tr>
 			<td class="tablecontents">
@@ -1347,21 +1359,9 @@ elseif($SoldierName != null)
 			</td>
 			</tr>
 			</table>
-			</td>
-			<td class="tablecontents" style="text-align: left; padding: 20px;" valign="top" width="50%">
-			Stats image with player\'s favorite weapon:<br/><br/>
-			';
-			// include signature.php image
-			echo '
-			<a href="' . $host . $dir . '/common/signature/signaturepid' . $PlayerID . 'fav1.png" target="_blank"><img src="./common/signature/signaturepid' . $PlayerID . 'fav1.png';
-			if(!empty($cr))
-			{
-				echo '?cr=' . $cr;
-			}
-			echo '" style="height: 100px; width: 400px;" alt="signature" /></a>
 			<br/>
-			<span class="information">BBcode:</span>
-			<br/><br/>
+			Image with favorite weapon:
+			<br/>
 			<table class="prettytable">
 			<tr>
 			<td class="tablecontents">
@@ -1407,9 +1407,8 @@ if($SoldierName != null AND $SoldierName != 'Not Found')
 	<div class="subsection"><div class="headline"><span class="information">External Links for "' . $SoldierName . '"</span></div></div>
 	<table class="prettytable">
 	<tr>
-	<td class="tablecontents" width="33%" style="text-align: center"><span class="information">Battlelog Stats: </span><a href="http://battlelog.battlefield.com/bf4/user/' . $SoldierName . '" target="_blank">www.Battlelog.Battlefield.com</a></td>
-	<td class="tablecontents" width="33%" style="text-align: center"><span class="information">BF4Stats: </span><a href="https://bf4stats.com/pc/' . $SoldierName . '" target="_blank">www.BF4Stats.com</a></td>
-	<td class="tablecontents" width="33%" style="text-align: center"><span class="information">BF4DB: </span><a href="https://bf4db.com/player/search?name=' . $SoldierName . '" target="_blank">www.BF4DB.com</a></td>
+	<td class="tablecontents" width="50%" style="text-align: center"><span class="information">Battlelog Stats: </span><a href="https://battlelog.battlefield.com/bf4/user/' . $SoldierName . '" target="_blank">www.Battlelog.Battlefield.com</a></td>
+	<td class="tablecontents" width="50%" style="text-align: center"><span class="information">BF4DB: </span><a href="https://bf4db.com/player/search?name=' . $SoldierName . '" target="_blank">www.BF4DB.com</a></td>
 	</tr>
 	</table>
 	<br/>

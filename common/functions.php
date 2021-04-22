@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // function to find player's weapon stats
 function Statsout($damagetype,$weapon_array,$PlayerID,$ServerID,$valid_ids,$GameID,$BF4stats,$ID)
@@ -302,7 +302,7 @@ function rank($ServerID,$valid_ids,$PlayerID,$BF4stats,$GameID,$cr)
 			AND `SID` = '{$valid_ids}'
 			GROUP BY `PlayerID`
 		");
-		if(@mysqli_num_rows($ScoreC_q) == 0)
+		if(!$ScoreC_q || @mysqli_num_rows($ScoreC_q) == 0)
 		{
 			// insert useless dummy data for now
 			// we do this early so that we can insert dummy data now into the database (if necessary) to reduce duplicates later when the slower parallel process is executed
@@ -1534,7 +1534,15 @@ function session_count($userip, $ServerID, $valid_ids, $GameID, $BF4stats, $page
 			// deliberate attack?
 			// kill it
 			// find current URL info
-			$host = 'http://' . $_SERVER['HTTP_HOST'];
+			// is this an HTTPS server?
+			if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+			{
+				$host = 'https://' . $_SERVER['HTTP_HOST'];
+			}
+			else
+			{
+				$host = 'http://' . $_SERVER['HTTP_HOST'];
+			}
 			$dir = dirname($_SERVER['PHP_SELF']);
 			// build redirect link
 			$redirect =  $host . $dir . '/index.php';

@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // include required files
 require_once('../../config/config.php');
@@ -19,7 +19,7 @@ echo '
 <script type="text/javascript">
 $(function()
 {
-	$( "#tabs, #dogtag_tab" ).tabs(
+	$( "#tabs" ).tabs(
 	{
 		beforeLoad: function( event, ui )
 		{
@@ -48,7 +48,7 @@ $(\'#loaded\').fadeIn("slow");
 // if there is a ServerID, this is a server stats page
 if(!empty($ServerID))
 {
-
+	
 	$Server_q = @mysqli_query($BF4stats,"
 		SELECT `CountPlayers`, `SumKills`, (`SumHeadshots`/`SumKills`) AS AvgHSR, (`SumKills`/`SumDeaths`) AS AvgKDR, `SumRounds`, `SumDeaths`, `AvgScore`, `AvgKills`, `AvgHeadshots`, `AvgDeaths`, `AvgSuicide`, `AvgTKs`
 		FROM `tbl_server_stats`
@@ -74,7 +74,7 @@ if(@mysqli_num_rows($Server_q) != 0)
 	{
 		echo '
 		<ul>
-		<li><a href="#tabs-1">Graphs / Info</a></li>
+		<li><a href="#tabs-1">Graph / Info</a></li>
 		<li><a href="./common/server/server-tab.php?sid=' . $ServerID . '&amp;gid=' . $GameID . '">Banners</a></li>
 		</ul>
 		';
@@ -110,22 +110,14 @@ if(@mysqli_num_rows($Server_q) != 0)
 	// if there is a ServerID, this is a server stats page
 	if(!empty($ServerID))
 	{
-		// include playersbydate.php contents
-		echo '<br/><center><img class="embed" src="./common/server/players-by-date.php?sid=' . $ServerID . '" alt="average players per day" title="average players per day" height="300" width="600" /></center><br/>';
-		// include players.php contents
-		echo '<center><img class="embed" src="./common/server/players-by-round.php?sid=' . $ServerID . '" alt="minimum, maximum and average players" title="minimum, maximum and average players" height="300" width="600" /></center><br/>';
-		// include joinsleaves.php contents
-		echo '<center><img class="embed" src="./common/server/joins-leaves.php?sid=' . $ServerID . '" alt="joins and leaves from server" title="joins and leaves from server" height="300" width="600" /></center><br/>';
+		// show players-by-date.png contents
+		echo '<br/><center><img class="embed" src="./common/server/players-by-date.png?sid=' . $ServerID . '" alt="average players per day" title="average players per day" height="300" width="600" /></center><br/>';
 	}
 	// or else this is a global stats page
 	else
 	{
-		// include playersbydate.php contents
-		echo '<br/><center><img class="embed" src="./common/server/players-by-date.php" alt="average players per day" title="average players per day" height="300" width="600" /></center><br/>';
-		// include players.php contents
-		echo '<center><img class="embed" src="./common/server/players-by-round.php" alt="minimum, maximum and average players" title="minimum, maximum and average players" height="300" width="600" /></center><br/>';
-		// include joinsleaves.php contents
-		echo '<center><img class="embed" src="./common/server/joins-leaves.php" alt="joins and leaves from server" title="joins and leaves from server" height="300" width="600" /></center><br/>';
+		// show players-by-date.png contents
+		echo '<br/><center><img class="embed" src="./common/server/players-by-date.png" alt="average players per day" title="average players per day" height="300" width="600" /></center><br/>';
 	}
 	echo '
 	</div>

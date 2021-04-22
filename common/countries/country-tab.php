@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // include required files
 require_once('../../config/config.php');
@@ -183,7 +183,7 @@ echo '
 // no players found
 // this must be a random database error
 // showing blank
-if(@mysqli_num_rows($CountryCount_q) == 0)
+if(!$CountryCount_q || @mysqli_num_rows($CountryCount_q) == 0)
 {
 	echo '
 	<tr>

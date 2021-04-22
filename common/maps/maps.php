@@ -1,6 +1,6 @@
 <?php
 // BF4 Stats Page by Ty_ger07
-// https://forum.myrcon.com/showthread.php?6854
+// https://myrcon.net/topic/162-chat-guid-stats-and-mapstats-logger-1003/
 
 // include required files
 require_once('../../config/config.php');
@@ -61,7 +61,7 @@ if(!empty($ServerID))
 }
 // or else this is a combined stats page
 else
-{
+{	
 	$Mode_q = @mysqli_query($BF4stats,"
 		SELECT `Gamemode`, SUM(`NumberofRounds`) AS TotalRounds
 		FROM `tbl_mapstats`
@@ -72,7 +72,7 @@ else
 		LIMIT 8
 	");
 }
-if(@mysqli_num_rows($Mode_q) == 0)
+if(!$Mode_q || @mysqli_num_rows($Mode_q) == 0)
 {
 	echo '
 	<div class="subsection">
@@ -94,7 +94,7 @@ else
 {
 	echo '
 	<div class="subsection">
-	<br/><center><div class="embed"><img src="./common/maps/maps-played.php';
+	<br/><center><div class="embed"><img src="./common/maps/maps-played.png';
 	if(!empty($ServerID))
 	{
 		echo '?sid=' . $ServerID;
@@ -247,7 +247,6 @@ else
 	}
 	echo '
 	</table>
-	</div>
 	';
 }
 ?>
