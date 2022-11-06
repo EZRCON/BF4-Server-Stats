@@ -1,14 +1,5 @@
 <?php
 
-if (file_exists(__DIR__ . '/../../../../vendor/autoload.php')) {
-    require __DIR__ . '/../../../../vendor/autoload.php';
-
-    $dotenv = new \Dotenv\Dotenv(__DIR__ . '/../../../../');
-    $dotenv->load();
-} else {
-    die('Failed to load');
-}
-
 // BF4 Stats Page by Ty_ger07
 // https://forum.myrcon.com/showthread.php?6854
 
